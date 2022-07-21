@@ -1,0 +1,44 @@
+<MyBox>
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    inputText:inputText
+    finalText:finalText
+
+    BoxLayout:
+        size: root.width, root.height
+        orientation: 'vertical'
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Line:
+                    width: 1
+                    rectangle: self.x, self.y, self.width, self.height
+            padding: 5, 0, 5, 0
+            orientation: 'horizontal'
+            ScrollView:
+                id: scrlVInputField
+                TextInput:
+                    id: inputText
+                    hint_text: "Введите Исходные данные типа:\nsnumber - character varying - № КТП\nscaption - character varying - КТП\nsFlow - character varying - Маршрут"
+                    size_hint: 1, None
+                    height: max( (len(self._lines)+1) * self.line_height, scrlVInputField.height)
+            ScrollView:
+                id: scrlFinalText
+                TextInput:
+                    id: finalText
+                    hint_text: "Сюдой придет результат"
+                    readonly: True
+                    size_hint: 1, None
+                    height: max( (len(self._lines)+1) * self.line_height, scrlVInputField.height)
+        BoxLayout:
+            padding: 50,5,50,5
+            size_hint: 1, 0.1
+            Button:
+                text: "Жмяк"
+                on_press: root.changeLabel()
