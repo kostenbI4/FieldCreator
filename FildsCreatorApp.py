@@ -1,5 +1,5 @@
-import os
-os.environ['KIVY_IMAGE'] = 'pil'
+# import os
+# os.environ['KIVY_IMAGE'] = 'pil'
 
 from kivy.app import App
 from kivy.properties import ObjectProperty
