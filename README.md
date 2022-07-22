@@ -54,3 +54,4 @@
 )
 
 ```
+4. python -m PyInstaller FildsCreatorApp.spec
