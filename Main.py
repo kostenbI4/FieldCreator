@@ -26,7 +26,7 @@ def getFildByName(name, rusText):
 
 
 def getRussianString(line):
-    reg = r"[№а-яА-Я]+[а-яА-Я,. :-№()\[\]]+"
+    reg = r"[№а-яА-Я]+[а-яА-Я,. :\-№()]+"
     match = re.search(reg, line)
     rez = match[0] if match else 'Not found'
     if getFildName(line)[:1] == "i":
@@ -48,7 +48,7 @@ def getFildName(line):
     rez = match[0] if match else 'Not found'
     match = re.search(r"[a-zA-z]+\.", rez)
     if match: rez = rez.replace(match[0], "")
-    return rez
+    return rez.lower()
 
 
 def getClass(fildName):
