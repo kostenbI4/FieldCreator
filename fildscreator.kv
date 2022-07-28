@@ -8,6 +8,8 @@
 
     inputText:inputText
     finalText:finalText
+    chk_prime:chk_prime
+    chk_reports:chk_reports
 
     BoxLayout:
         size: root.width, root.height
@@ -38,7 +40,39 @@
                     height: max( (len(self._lines)+1) * self.line_height, scrlVInputField.height)
         BoxLayout:
             padding: 50,5,50,5
-            size_hint: 1, 0.1
+            size_hint: 0.5, 0.1
             Button:
                 text: "Жмяк"
                 on_press: root.changeLabel()
+            BoxLayout:
+                orientation: 'vertical'
+                BoxLayout:
+                    CheckBox:
+                        id: chk_prime
+                        group: "checkbox"
+                        # use selected Attribute to judge checkbox Status of
+        #                state: 'down' if self.parent.selected else 'normal'
+                        size_hint: None, None
+                        size: lab.height, lab.height
+                        active:True
+                    Label:
+                        id: lab
+                        text: "Стандартный генератор"
+                        color: 0, 0, 0, 1
+                        size_hint: None, None
+                        size: self.texture_size
+                BoxLayout:
+                    CheckBox:
+                        id:chk_reports
+                        group: "checkbox"
+                        # use selected Attribute to judge checkbox Status of
+        #                state: 'down' if self.parent.selected else 'normal'
+                        size_hint: None, None
+                        size: lab.height, lab.height
+
+                    Label:
+                        id: lab
+                        text: "Генератор для отчетов"
+                        color: 0, 0, 0, 1
+                        size_hint: None, None
+                        size: self.texture_size

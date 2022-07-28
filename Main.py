@@ -25,6 +25,19 @@ def getFildByName(name, rusText):
     return head
 
 
+def getFildForReport(name):
+    fildName = ""
+    if name[:1] == 'i':
+        fildName = name
+    else:
+        fildName = name[1:]
+    head = f"""        
+        @Column(name = "{name}")        
+        private {getClass(name)} {fildName};
+"""
+    return head
+
+
 def getRussianString(line):
     reg = r"[№а-яА-Я]+[а-яА-Я,. :\-№()]+"
     match = re.search(reg, line)
@@ -62,6 +75,15 @@ def getFilds(text):
     str = ""
     for i in lines:
         str += getFildByName(getFildName(i), getRussianString(i))
+    return str
+
+
+def getReportFilds(text):
+    new_str = '\n'.join(el.strip() for el in text.split('\n') if el.strip())
+    lines = new_str.split("\n")
+    str = ""
+    for i in lines:
+        str += getFildForReport(getFildName(i))
     return str
 
 # getFilds("""""")
