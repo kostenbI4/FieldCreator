@@ -39,12 +39,17 @@
                     size_hint: 1, None
                     height: max( (len(self._lines)+1) * self.line_height, scrlVInputField.height)
         BoxLayout:
-            padding: 50,5,50,5
-            size_hint: 0.5, 0.1
-            Button:
-                text: "Жмяк"
-                on_press: root.changeLabel()
+            size_hint: 1, 0.1
             BoxLayout:
+                size_hint: 0.5, 1
+                padding:50,5,50,5
+                Button:
+                    text: "Жмяк"
+                    on_press: root.changeLabel()
+            BoxLayout:
+                size_hint: 0.5, 1
+                padding:5, 0, 0 ,5
+                size_hint: 0.5, 1
                 orientation: 'vertical'
                 BoxLayout:
                     CheckBox:
