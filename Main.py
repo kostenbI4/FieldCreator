@@ -17,10 +17,9 @@ def getFildByName(name, rusText):
     else:
         fildName = name[1:]
     head = f"""
-        @JsonProperty("{name}")
+        @JsonProperty(value = "{name}", access = JsonProperty.Access.READ_ONLY)
         @Column(name = "{name}")
-        @ApiModelProperty(accessMode = ApiModelProperty.AccessMode.READ_ONLY,
-            notes = "{rusText}")
+        @ApiModelProperty(notes = "{rusText}")
         private {getClass(name)} {fildName};
 """
     return head
@@ -57,10 +56,10 @@ def getFildName(line):
         rez = line.replace(match[0], "")
     else:
         rez = line
-    reg = r"^[a-zA-Z_.]+"
+    reg = r"^[a-zA-Z0-9_.]+"
     match = re.search(reg, rez)
     rez = match[0] if match else 'Not found'
-    match = re.search(r"[a-zA-z]+\.", rez)
+    match = re.search(r"[a-zA-z0-9_]+\.", rez)
     if match: rez = rez.replace(match[0], "")
     return rez.lower()
 
@@ -81,7 +80,7 @@ def getFilds(text):
     if match:
         for i in lines:
             str += getFildByName(getFildName(i), getRussianString(i))
-            return str
+        return str
     else:
         for i in lines:
             if schForTable == 1:
