@@ -27,7 +27,7 @@
                 id: scrlVInputField
                 TextInput:
                     id: inputText
-                    hint_text: "Введите Исходные данные типа:\nsnumber - character varying - № КТП\nscaption - character varying - КТП\nsFlow - character varying - Маршрут\n\n Также воспринимаются Мишины данные типа:\nMNF_Capacity.Get(rbt.id) as scapacity, --  [Код вида мощности]"
+                    hint_text: "Введите Исходные данные типа:\nsnumber - character varying - № КТП\nscaption - character varying - КТП\nsFlow - character varying - Маршрут\n\n Также воспринимаются Мишины данные типа:\nMNF_Capacity.Get(rbt.id) as scapacity, --  [Код вида мощности]\n\n Также воспринимаются данные типа:\n smnemocode\n varchar \n Номер"
                     size_hint: 1, None
                     height: max( (len(self._lines)+1) * self.line_height, scrlVInputField.height)
             ScrollView:

@@ -6,6 +6,7 @@ CLASSES = {
     "f": "Double",
     "b": "Integer",
     "d": "LocalDate",
+    "t": "LocalTime"
 }
 
 
@@ -73,17 +74,53 @@ def getFilds(text):
     new_str = '\n'.join(el.strip() for el in text.split('\n') if el.strip())
     lines = new_str.split("\n")
     str = ""
-    for i in lines:
-        str += getFildByName(getFildName(i), getRussianString(i))
-    return str
+    schForTable = 1  # Счетчик строк для варианта с маркдауном
+    MDFildName = ""
+    MDRusString = ""
+    match = re.search(r".+\s.+", lines[0])
+    if match:
+        for i in lines:
+            str += getFildByName(getFildName(i), getRussianString(i))
+            return str
+    else:
+        for i in lines:
+            if schForTable == 1:
+                MDFildName = getFildName(i)
+                schForTable += 1
+            elif schForTable == 2:
+                schForTable += 1
+            else:
+                MDRusString = i
+                print("rs: ", i)
+                str += getFildByName(MDFildName, MDRusString)
+                schForTable = 1
+                MDFildName = ""
+                MDRusString = ""
+        return str
 
 
 def getReportFilds(text):
     new_str = '\n'.join(el.strip() for el in text.split('\n') if el.strip())
     lines = new_str.split("\n")
     str = ""
-    for i in lines:
-        str += getFildForReport(getFildName(i))
-    return str
+    schForTable = 1  # Счетчик строк для варианта с маркдауном
+    MDFildName = ""
+    match = re.search(r".+\s.+", lines[0])
+    if match:
+        for i in lines:
+            str += getFildForReport(getFildName(i))
+        return str
+    else:
+        for i in lines:
+            if schForTable == 1:
+                MDFildName = getFildName(i)
+                schForTable += 1
+            elif schForTable == 2:
+                schForTable += 1
+            else:
+                str += getFildForReport(MDFildName)
+                schForTable = 1
+                MDFildName = ""
+        return str
 
 # getFilds("""""")
