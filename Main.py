@@ -5,6 +5,7 @@ CLASSES = {
     "s": "String",
     "f": "Double",
     "b": "Integer",
+    "n": "Integer",
     "d": "LocalDate",
     "t": "LocalTime"
 }
@@ -25,13 +26,14 @@ def getFildByName(name, rusText):
     return head
 
 
-def getFildForReport(name):
+def getFildForReport(name, rusText):
     fildName = ""
     if name[:1] == 'i':
         fildName = name
     else:
         fildName = name[1:]
-    head = f"""        
+    head = f"""
+        //{rusText}
         @Column(name = "{name}")        
         private {getClass(name)} {fildName};
 """
@@ -107,7 +109,7 @@ def getReportFilds(text):
     match = re.search(r".+\s.+", lines[0])
     if match:
         for i in lines:
-            str += getFildForReport(getFildName(i))
+            str += getFildForReport(getFildName(i), getRussianString(i))
         return str
     else:
         for i in lines:
@@ -117,9 +119,8 @@ def getReportFilds(text):
             elif schForTable == 2:
                 schForTable += 1
             else:
-                str += getFildForReport(MDFildName)
+                MDRusString = i
+                str += getFildForReport(MDFildName, MDRusString)
                 schForTable = 1
                 MDFildName = ""
         return str
-
-# getFilds("""""")

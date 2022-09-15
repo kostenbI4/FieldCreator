@@ -1,2 +1,5 @@
 venv
 .idea
+build
+PyQt5Lessons.py
+TKinterGraphick
