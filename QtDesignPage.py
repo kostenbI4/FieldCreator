@@ -23,9 +23,11 @@ class QtDesignPage(QWidget):
          """
     def btnEvent(self):
         if self.radioStandart.isChecked():
-            self.textOutput.setText(Main.getFilds(self.textInput.toPlainText()))
+            self.textOutput.setPlainText(Main.getFilds(self.textInput.toPlainText()))
+        elif self.radioReportFilter.isChecked():
+            self.textOutput.setPlainText(Main.getFiltersFilds(self.textInput.toPlainText()))
         else:
-            self.textOutput.setText(Main.getReportFilds(self.textInput.toPlainText()))
+            self.textOutput.setPlainText(Main.getReportFilds(self.textInput.toPlainText()))
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -43,7 +45,7 @@ class QtDesignPage(QWidget):
         outContainer.addLayout(scrollsContainer)
         self.textInput = QTextEdit()
         self.textInput.setPlaceholderText(self.textForInputPlaceholder)
-        self.textOutput = QTextEdit()
+        self.textOutput = QPlainTextEdit()
         self.textOutput.setPlaceholderText("Тут будет результат")
         self.textOutput.setReadOnly(True)
         scrollsContainer.addWidget(self.textInput)
@@ -69,10 +71,12 @@ class QtDesignPage(QWidget):
         # bottomContainer.addStretch(1)
         self.radioStandart = QRadioButton("Стандартный генератор")
         self.radioReport = QRadioButton("Генератор для отчетов")
+        self.radioReportFilter = QRadioButton("Генератор для фильтров")
         self.radioStandart.setChecked(True)
         # checkBoxLayout.addStretch(1)
         checkBoxLayout.addWidget(self.radioStandart)
         checkBoxLayout.addWidget(self.radioReport)
+        checkBoxLayout.addWidget(self.radioReportFilter)
 
         self.move(300, 150)
         self.show()

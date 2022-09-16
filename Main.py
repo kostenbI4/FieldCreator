@@ -10,6 +10,15 @@ CLASSES = {
     "t": "LocalTime"
 }
 
+CLASSESFORFILTER = {
+    "BigInteger": "numeric",
+    "String": "string",
+    "Integer": "numeric",
+    "LocalDate": "date",
+    "LocalTime": "date",
+    "Double": "numeric",
+}
+
 
 def getFildByName(name, rusText):
     fildName = ""
@@ -37,6 +46,16 @@ def getFildForReport(name, rusText):
         @Column(name = "{name}")        
         private {getClass(name)} {fildName};
 """
+    return head
+
+
+def getFildForFilter(name, rusText):
+    fildName = ""
+    if name[:1] == 'i':
+        fildName = name
+    else:
+        fildName = name[1:]
+    head = f'{{"name": "{name}", "datatype": "{getClassFilter(name)}", "operator": null, "val": null}} {rusText} <hr>' + "\\\n"
     return head
 
 
@@ -69,6 +88,11 @@ def getFildName(line):
 def getClass(fildName):
     bukva = fildName[:1]
     return CLASSES.get(bukva)
+
+
+def getClassFilter(fildName):
+    className = getClass(fildName)
+    return CLASSESFORFILTER.get(className)
 
 
 def getFilds(text):
@@ -121,6 +145,32 @@ def getReportFilds(text):
             else:
                 MDRusString = i
                 str += getFildForReport(MDFildName, MDRusString)
+                schForTable = 1
+                MDFildName = ""
+        return str
+
+
+def getFiltersFilds(text):
+    new_str = '\n'.join(el.strip() for el in text.split('\n') if el.strip())
+    lines = new_str.split("\n")
+    str = ""
+    schForTable = 1  # Счетчик строк для варианта с маркдауном
+    MDFildName = ""
+    match = re.search(r".+\s.+", lines[0])
+    if match:
+        for i in lines:
+            str += getFildForFilter(getFildName(i), getRussianString(i))
+        return str
+    else:
+        for i in lines:
+            if schForTable == 1:
+                MDFildName = getFildName(i)
+                schForTable += 1
+            elif schForTable == 2:
+                schForTable += 1
+            else:
+                MDRusString = i
+                str += getFildForFilter(MDFildName, MDRusString)
                 schForTable = 1
                 MDFildName = ""
         return str

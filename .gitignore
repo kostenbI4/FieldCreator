@@ -3,3 +3,6 @@ venv
 build
 PyQt5Lessons.py
 TKinterGraphick
+/PyQt5Lessons.py
+/TKinterGraphick
+/dist
