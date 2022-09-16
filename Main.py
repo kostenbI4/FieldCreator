@@ -19,6 +19,16 @@ CLASSESFORFILTER = {
     "Double": "numeric",
 }
 
+JASPERCLASSES = {
+    'i': "java.math.BigInteger",
+    "s": "java.lang.String",
+    "f": "java.lang.Double",
+    "b": "java.lang.Integer",
+    "n": "java.lang.Integer",
+    "d": "java.time.LocalDate",
+    "t": "java.time.LocalTime"
+}
+
 
 def getFildByName(name, rusText):
     fildName = ""
@@ -59,6 +69,16 @@ def getFildForFilter(name, rusText):
     return head
 
 
+def getFildForJasper(list):
+    fildName = list[2].strip().split(" ")[-1:][0][:-1]
+    fildForClassName = list[1].strip()
+    match = re.findall(r'"(.*)"', fildForClassName)[0]
+    head = f"""
+<field name="{fildName}" class="{getJasperClass(match)}"/>
+"""
+    return head
+
+
 def getRussianString(line):
     reg = r"[№а-яА-Я]+[а-яА-Я,. :\-№()]+"
     match = re.search(reg, line)
@@ -66,6 +86,11 @@ def getRussianString(line):
     if getFildName(line)[:1] == "i":
         rez = "ID " + rez
     return rez
+
+
+def getJavaName(line):
+    fildName = getFildName(line)
+    return re.findall(fildName, line, re.IGNORECASE)[-1:]
 
 
 def getFildName(line):
@@ -93,6 +118,11 @@ def getClass(fildName):
 def getClassFilter(fildName):
     className = getClass(fildName)
     return CLASSESFORFILTER.get(className)
+
+
+def getJasperClass(fildName):
+    bukva = fildName[:1]
+    return JASPERCLASSES.get(bukva)
 
 
 def getFilds(text):
@@ -174,3 +204,26 @@ def getFiltersFilds(text):
                 schForTable = 1
                 MDFildName = ""
         return str
+
+
+def getJasperFilds(text):
+    new_str = '\n'.join(el.strip() for el in text.split('\n') if el.strip())
+    fildsList = new_str.splitlines()
+    newFildsList = []
+    vp = []
+    sch = 0
+    for i in fildsList:
+        if sch == 3:
+            sch = 1
+            newFildsList.append(vp)
+            vp = []
+            vp.append(i)
+        else:
+            vp.append(i)
+            sch += 1
+    newFildsList.append(vp)
+    print(newFildsList)
+    str = ""
+    for i in newFildsList:
+        str += getFildForJasper(i)
+    return str

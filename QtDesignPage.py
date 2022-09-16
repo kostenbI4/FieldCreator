@@ -26,6 +26,8 @@ class QtDesignPage(QWidget):
             self.textOutput.setPlainText(Main.getFilds(self.textInput.toPlainText()))
         elif self.radioReportFilter.isChecked():
             self.textOutput.setPlainText(Main.getFiltersFilds(self.textInput.toPlainText()))
+        elif self.radioJaserFilds.isChecked():
+            self.textOutput.setPlainText(Main.getJasperFilds(self.textInput.toPlainText()))
         else:
             self.textOutput.setPlainText(Main.getReportFilds(self.textInput.toPlainText()))
 
@@ -72,11 +74,13 @@ class QtDesignPage(QWidget):
         self.radioStandart = QRadioButton("Стандартный генератор")
         self.radioReport = QRadioButton("Генератор для отчетов")
         self.radioReportFilter = QRadioButton("Генератор для фильтров")
+        self.radioJaserFilds = QRadioButton("Поля для Jasper")
         self.radioStandart.setChecked(True)
         # checkBoxLayout.addStretch(1)
         checkBoxLayout.addWidget(self.radioStandart)
         checkBoxLayout.addWidget(self.radioReport)
         checkBoxLayout.addWidget(self.radioReportFilter)
+        checkBoxLayout.addWidget(self.radioJaserFilds)
 
         self.move(300, 150)
         self.show()
