@@ -135,6 +135,7 @@ class QtDesignPage(QWidget):
         if self.textInput.toPlainText():
             JasperFileGenerator = JFG.JasperFileGenerator(filds=self.textInput.toPlainText(), fileName=self.fileName.text())
             JasperFileGenerator.getJasper(path=self.dir)
+            self.textOutput.setPlainText(JasperFileGenerator.getFulJasperText())
         else:
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Warning)
