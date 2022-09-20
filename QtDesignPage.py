@@ -23,6 +23,17 @@ class QtDesignPage(QWidget):
          Номер
          """
 
+    textForCreateJasper="""
+        Введите данные типа:
+        // Деталь код SAP
+        @Column(name = "scodesap")
+        private String codeSap; 
+    
+        // Количество в задании
+        @Column(name = "fqty_plan")
+        private Double quantityPlan; 
+    """
+
     def btnEvent(self):
         if self.radioStandart.isChecked():
             self.textOutput.setPlainText(Main.getFilds(self.textInput.toPlainText()))

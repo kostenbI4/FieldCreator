@@ -37,9 +37,9 @@ def getFildByName(name, rusText):
     else:
         fildName = name[1:]
     head = f"""
-        @JsonProperty(value = "{name}", access = JsonProperty.Access.READ_ONLY)
         @Column(name = "{name}")
         @ApiModelProperty(notes = "{rusText}")
+        @JsonProperty(value = "{name}", access = JsonProperty.Access.READ_ONLY)
         private {getClass(name)} {fildName};
 """
     return head
