@@ -1,10 +1,11 @@
+import configparser
+import os
 import sys
 
-from PyQt5.QtCore import Qt
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import *
+from configparser import ConfigParser
 import JasperFileGenerator as JFG
-import JasperTemplates as jt
 import Main
 
 
@@ -24,7 +25,7 @@ class QtDesignPage(QWidget):
          Номер
          """
 
-    textForCreateJasper="""
+    textForCreateJasper = """
         Введите данные типа:
         // Деталь код SAP
         @Column(name = "scodesap")
@@ -49,7 +50,15 @@ class QtDesignPage(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.dir = ""
+        if not os.path.exists('config.properties'):
+            with open('config.properties', 'w'): pass
+        self.configParser = ConfigParser()
+        self.configParser.read('config.properties')
+        if not self.configParser.has_section("Settings"):
+            self.configParser.add_section("Settings")
+            self.configParser.set("Settings", "dir", "")
+
+        self.dir = self.configParser.get("Settings", "dir")
         self.setupUi()
 
     def setupUi(self):
@@ -131,6 +140,9 @@ class QtDesignPage(QWidget):
 
     def getDirectory(self):  # <-----
         self.dir = QFileDialog.getExistingDirectory(self, "Выбрать папку", ".")
+        self.configParser.set("Settings", "dir", self.dir)
+        with open("config.properties", "w") as config_file:
+            self.configParser.write(config_file)
         self.dirLabel.setText(self.dir)
 
     def radioClick(self):
@@ -147,7 +159,8 @@ class QtDesignPage(QWidget):
 
     def createJasper(self):
         if self.textInput.toPlainText():
-            JasperFileGenerator = JFG.JasperFileGenerator(filds=self.textInput.toPlainText(), fileName=self.fileName.text())
+            JasperFileGenerator = JFG.JasperFileGenerator(filds=self.textInput.toPlainText(),
+                                                          fileName=self.fileName.text())
             JasperFileGenerator.getJasper(path=self.dir)
             self.textOutput.setPlainText(JasperFileGenerator.getFulJasperText())
         else:
