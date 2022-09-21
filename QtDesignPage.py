@@ -1,6 +1,7 @@
 import sys
 
 from PyQt5.QtCore import Qt
+from PyQt5 import QtGui
 from PyQt5.QtWidgets import *
 import JasperFileGenerator as JFG
 import JasperTemplates as jt
@@ -137,10 +138,12 @@ class QtDesignPage(QWidget):
             self.openDirButton.setDisabled(False)
             self.fileName.setDisabled(False)
             self.createButton.setDisabled(False)
+            self.textInput.setPlaceholderText(self.textForCreateJasper)
         else:
             self.openDirButton.setDisabled(True)
             self.fileName.setDisabled(True)
             self.createButton.setDisabled(True)
+            self.textInput.setPlaceholderText(self.textForInputPlaceholder)
 
     def createJasper(self):
         if self.textInput.toPlainText():
@@ -169,4 +172,5 @@ class QtDesignPage(QWidget):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     win = QtDesignPage()
+    win.setWindowIcon(QtGui.QIcon('icon.png'))
     sys.exit(app.exec_())
