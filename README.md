@@ -1,11 +1,11 @@
-# FieldCreator #
+﻿# FieldCreator #
 ## pip install ##
   pip install kivy
 
 
 ### Примечания ###
 #### Создание exe ####
-1. python -m PyInstaller --onefile --windowed --name Name Name.py
+1. python -m PyInstaller --onefile --windowed -i icon.ico --name FildsCreator  QtDesignPage.py
 ---
 
 Возможно понадобится:

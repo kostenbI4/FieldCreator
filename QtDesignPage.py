@@ -185,5 +185,6 @@ class QtDesignPage(QWidget):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     win = QtDesignPage()
-    win.setWindowIcon(QtGui.QIcon('icon.png'))
+    win.setWindowIcon(QtGui.QIcon('icon.ico'))
+    app.setWindowIcon(QtGui.QIcon('icon.ico'))
     sys.exit(app.exec_())
