@@ -2,9 +2,10 @@ import re
 
 import JasperTemplates as jt
 
-defFilds="""//DEFAULT
+defFilds = """//DEFAULT
     @Column(name = "sdefault")
     private String default;"""
+
 
 # Строю на основании отчета EquipCatalog
 class JasperFileGenerator:
@@ -119,8 +120,9 @@ class JasperFileGenerator:
         columns = ""
         for i in zip(self.filds, self.coordX, range(1, len(self.filds) + 1)):
             fildName = i[0][2].strip().split(" ")[-1:][0][:-1]
+            fildNameForPattern = i[0][1].strip().split(" ")[-1:][0][:-1]
             coord = i[1]
-            pattern = self._getPattern(fildName)
+            pattern = self._getPattern(fildNameForPattern)
             fildNameTemplate = f"""$F{{{fildName}}}{self._getFormat(re.findall(r'"(.*)"', i[0][1].strip())[0])}"""
             if i[2] == len(self.filds):
                 columns += jt.detailTextField.format(coord=coord, name=fildNameTemplate, width=self.widthLastFild,
@@ -145,13 +147,14 @@ class JasperFileGenerator:
             return format
 
     def _getPattern(self, fildName):
-        bukva = fildName[:1]
+        bukva = fildName.strip().replace('"', '')[:1]
+        print(f'{fildName}: {bukva}')
         if bukva == "d":
             nextBukva = fildName[1:2]
             bukva += nextBukva if nextBukva == "t" else ""
         if (bukva == "i" or bukva == "b" or bukva == "n"):
             return "0"
-        elif bukva == "d":
+        elif bukva == "f":
             return "0.0"
         else:
             return "@"
