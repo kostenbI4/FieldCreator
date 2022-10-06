@@ -107,7 +107,7 @@ detail = """
 
 detailTextField = """
             <textField textAdjust="StretchHeight">
-                    <reportElement style="cell" x="{coord}" y="0" width="{width}" height="95" uuid="6836266a-dc95-48c3-9d06-cf4fec37082e">
+                    <reportElement style="cell" stretchType="ContainerHeight" x="{coord}" y="0" width="{width}" height="95" uuid="6836266a-dc95-48c3-9d06-cf4fec37082e">
                         <property name="net.sf.jasperreports.export.xls.auto.fit.row" value="true"/>
                         <property name="com.jaspersoft.layout.grid.x" value="-1"/>
                         <property name="com.jaspersoft.layout.grid.y" value="-1"/>
