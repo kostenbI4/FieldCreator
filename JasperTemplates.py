@@ -118,6 +118,7 @@ detailTextField = """
                         <property name="com.jaspersoft.layout.grid.weight.fixed" value="false"/>
                         <property name="net.sf.jasperreports.style.pattern" value="{pattern}"/>
                         <property name="net.sf.jasperreports.export.xls.pattern" value="{pattern}"/>
+                        <property name="net.sf.jasperreports.style.isBlankWhenNull" value="true"/>
                     </reportElement>
                     <box>
                         <pen lineWidth="0.5"/>
