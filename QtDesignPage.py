@@ -158,33 +158,44 @@ class QtDesignPage(QWidget):
             self.textInput.setPlaceholderText(self.textForInputPlaceholder)
 
     def createJasper(self):
-        if self.textInput.toPlainText():
-            JasperFileGenerator = JFG.JasperFileGenerator(filds=self.textInput.toPlainText(),
-                                                          fileName=self.fileName.text())
-            JasperFileGenerator.getJasper(path=self.dir)
-            self.textOutput.setPlainText(JasperFileGenerator.getFulJasperText())
-        else:
+        try:
+            if self.textInput.toPlainText():
+                JasperFileGenerator = JFG.JasperFileGenerator(filds=self.textInput.toPlainText(),
+                                                              fileName=self.fileName.text())
+                JasperFileGenerator.getJasper(path=self.dir)
+                self.textOutput.setPlainText(JasperFileGenerator.getFulJasperText())
+            else:
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Warning)
+                msg.setText("Введите поля")
+                txt = """Введите поля в формате:
+                    //Время окончания
+        @Column(name = "tend")
+        private LocalTime end;
+    
+        //Исключения к календарю профиля (
+        @Column(name = "sclndexception")
+        private String clndException;
+                """
+                msg.setInformativeText(txt)
+                msg.setWindowTitle("Внимание")
+                msg.exec_()
+            # print(self.dir)
+        except Exception as err:
+            print(str(err), "TUT")
             msg = QMessageBox()
-            msg.setIcon(QMessageBox.Warning)
-            msg.setText("Введите поля")
-            txt = """Введите поля в формате:
-                //Время окончания
-    @Column(name = "tend")
-    private LocalTime end;
-
-    //Исключения к календарю профиля (
-    @Column(name = "sclndexception")
-    private String clndException;
-            """
-            msg.setInformativeText(txt)
-            msg.setWindowTitle("Внимание")
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText(str(err))
             msg.exec_()
-        # print(self.dir)
+
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    win = QtDesignPage()
-    win.setWindowIcon(QtGui.QIcon('icon.ico'))
-    app.setWindowIcon(QtGui.QIcon('icon.ico'))
-    sys.exit(app.exec_())
+    try:
+        app = QApplication(sys.argv)
+        win = QtDesignPage()
+        win.setWindowIcon(QtGui.QIcon('icon.ico'))
+        app.setWindowIcon(QtGui.QIcon('icon.ico'))
+        sys.exit(app.exec_())
+    except Exception as e:
+        pass

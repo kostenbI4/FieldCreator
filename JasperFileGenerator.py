@@ -214,16 +214,20 @@ class JasperFileGenerator:
             return ""
 
     def getFulJasperText(self):
-        jasper = ""
-        jasper += jt.header.format(name=self.fileName)
-        jasper += self._getJasperFilds()
-        jasper += self._getVariables()
-        jasper += self._getTitle()
-        jasper += self._getColumnHeader()
-        jasper += self._getDetaIl()
-        jasper += "</jasperReport>"
-        new_str = jasper.replace('\n\n', '\n')
-        return new_str
+        try:
+            jasper = ""
+            jasper += jt.header.format(name=self.fileName)
+            jasper += self._getJasperFilds()
+            jasper += self._getVariables()
+            jasper += self._getTitle()
+            jasper += self._getColumnHeader()
+            jasper += self._getDetaIl()
+            jasper += "</jasperReport>"
+            new_str = jasper.replace('\n\n', '\n')
+            return new_str
+        except Exception as e:
+            print(str(e), "getFulJasperText()")
+            raise NameError("Ошибка генерации Текста отчета", str(e))
 
     def getJasper(self, path=""):
         print(f"{path}/{self.fileName}.jrxml")
@@ -232,7 +236,8 @@ class JasperFileGenerator:
                 print(f"{path}/{self.fileName}.jrxml")
                 f.write(self.getFulJasperText())
         except Exception as e:
-            print(str(e))
+            print(str(e), "getJasper()")
+            raise e
 
 # JasperFileGenerator = JasperFileGenerator(filds = jt.testData)
 # print(JasperFileGenerator.getFulJasperText())
