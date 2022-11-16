@@ -7,7 +7,8 @@ CLASSES = {
     "b": "Integer",
     "n": "Integer",
     "d": "LocalDate",
-    "t": "LocalTime"
+    "t": "LocalTime",
+    "dt": "java.time.LocalDateTime"
 }
 
 CLASSESFORFILTER = {
@@ -16,6 +17,7 @@ CLASSESFORFILTER = {
     "Integer": "numeric",
     "LocalDate": "date",
     "LocalTime": "date",
+    "LocalDateTime": "date",
     "Double": "numeric",
 }
 
@@ -26,7 +28,8 @@ JASPERCLASSES = {
     "b": "java.lang.Integer",
     "n": "java.lang.Integer",
     "d": "java.time.LocalDate",
-    "t": "java.time.LocalTime"
+    "t": "java.time.LocalTime",
+    "dt": "java.time.LocalDateTime"
 }
 
 
@@ -112,6 +115,9 @@ def getFildName(line):
 
 def getClass(fildName):
     bukva = fildName[:1]
+    if bukva == "d":
+        nextBukva = fildName[1:2]
+        bukva += nextBukva if nextBukva == "t" else ""
     return CLASSES.get(bukva)
 
 
@@ -122,6 +128,9 @@ def getClassFilter(fildName):
 
 def getJasperClass(fildName):
     bukva = fildName[:1]
+    if bukva == "d":
+        nextBukva = fildName[1:2]
+        bukva += nextBukva if nextBukva == "t" else ""
     return JASPERCLASSES.get(bukva)
 
 
