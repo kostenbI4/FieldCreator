@@ -8,7 +8,7 @@ CLASSES = {
     "n": "Integer",
     "d": "LocalDate",
     "t": "LocalTime",
-    "dt": "java.time.LocalDateTime"
+    "dt": "LocalDateTime"
 }
 
 CLASSESFORFILTER = {
