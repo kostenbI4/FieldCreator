@@ -39,6 +39,7 @@ class QtDesignPage(QWidget):
     def btnEvent(self):
         if self.radioStandart.isChecked():
             self.textOutput.setPlainText(Main.getFilds(self.textInput.toPlainText()))
+            Main.createStandartFiles(self.dirForStandart)
         elif self.radioReportFilter.isChecked():
             self.textOutput.setPlainText(Main.getFiltersFilds(self.textInput.toPlainText()))
         elif self.radioJaserFilds.isChecked():
@@ -97,7 +98,21 @@ class QtDesignPage(QWidget):
         checkBoxLayout = QVBoxLayout()
         bottomContainer.addLayout(checkBoxLayout, 0, 1)
         # bottomContainer.addStretch(1)
+        createStandartFiles = QHBoxLayout()
         self.radioStandart = QRadioButton("Стандартный генератор")
+        createStandartFiles.addWidget(self.radioStandart)
+        self.className = QLineEdit()
+        self.className.setPlaceholderText("введите имя файла")
+        self.className.setDisabled(True)
+        createStandartFiles.addWidget(self.className)
+        self.openDirButtonForStandart = QPushButton("Выберите папку")
+        self.openDirButtonForStandart.setDisabled(True)
+        self.openDirButtonForStandart.clicked.connect(self.getDirectoryForStandart)
+        createStandartFiles.addWidget(self.openDirButtonForStandart)
+        self.dirLabelForStandart = QLabel(self.dir)
+        self.dirLabelForStandart.setMinimumWidth(300)
+        createStandartFiles.addWidget(self.dirLabelForStandart)
+
         self.radioReport = QRadioButton("Генератор для отчетов")
         self.radioReportFilter = QRadioButton("Генератор для фильтров")
         self.radioJaserFilds = QRadioButton("Поля для Jasper")
@@ -129,7 +144,7 @@ class QtDesignPage(QWidget):
 
         self.radioStandart.setChecked(True)
         # checkBoxLayout.addStretch(1)
-        checkBoxLayout.addWidget(self.radioStandart)
+        checkBoxLayout.addLayout(createStandartFiles)
         checkBoxLayout.addWidget(self.radioReport)
         checkBoxLayout.addWidget(self.radioReportFilter)
         checkBoxLayout.addWidget(self.radioJaserFilds)
@@ -145,6 +160,13 @@ class QtDesignPage(QWidget):
             self.configParser.write(config_file)
         self.dirLabel.setText(self.dir)
 
+    def getDirectoryForStandart(self):  # <-----
+        self.dirForStandart = QFileDialog.getExistingDirectory(self, "Выбрать папку", ".")
+        self.configParser.set("Settings", "dirForStandart", self.dirForStandart)
+        with open("config.properties", "w") as config_file:
+            self.configParser.write(config_file)
+        self.dirLabelForStandart.setText(self.dirForStandart)
+
     def radioClick(self):
         if self.radioCreateJasper.isChecked():
             self.openDirButton.setDisabled(False)
@@ -155,6 +177,15 @@ class QtDesignPage(QWidget):
             self.openDirButton.setDisabled(True)
             self.fileName.setDisabled(True)
             self.createButton.setDisabled(True)
+            self.textInput.setPlaceholderText(self.textForInputPlaceholder)
+
+        if self.radioStandart.isChecked():
+            self.openDirButtonForStandart.setDisabled(False)
+            self.className.setDisabled(False)
+            self.textInput.setPlaceholderText(self.textForInputPlaceholder)
+        else:
+            self.openDirButtonForStandart.setDisabled(True)
+            self.className.setDisabled(True)
             self.textInput.setPlaceholderText(self.textForInputPlaceholder)
 
     def createJasper(self):
@@ -191,11 +222,11 @@ class QtDesignPage(QWidget):
 
 
 if __name__ == "__main__":
-    try:
+    # try:
         app = QApplication(sys.argv)
         win = QtDesignPage()
         win.setWindowIcon(QtGui.QIcon('icon.ico'))
         app.setWindowIcon(QtGui.QIcon('icon.ico'))
         sys.exit(app.exec_())
-    except Exception as e:
-        pass
+    # except Exception as e:
+    #     pass

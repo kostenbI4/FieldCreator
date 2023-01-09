@@ -236,3 +236,4 @@ def getJasperFilds(text):
     for i in newFildsList:
         str += getFildForJasper(i)
     return str
+
