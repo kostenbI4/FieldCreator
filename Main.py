@@ -37,6 +37,8 @@ def getFildByName(name, rusText):
     fildName = ""
     if name[:1] == 'i':
         fildName = name
+    elif name[0] == "d" and name[1] == "t":
+        fildName = name[2:]
     else:
         fildName = name[1:]
     head = f"""
